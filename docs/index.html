@@ -39,7 +39,7 @@
 </head>
 <body>
   <header class="site-header">
-    <a class="brand" href="https://cybercore-tech.github.io/" data-brand-phase="0" aria-label="Cybercore Tech home"><span class="brand-emblem">CC</span><span class="brand-name">CYBERCORE <b>/</b> SIGILWARD<small>SECURITY TOOLS</small></span></a>
+    <a class="brand" href="https://cybercoretech.github.io/" data-brand-phase="0" aria-label="Cybercore Tech home"><span class="brand-emblem">CC</span><span class="brand-name">CYBERCORE <b>/</b> SIGILWARD<small>SECURITY TOOLS</small></span></a>
     <nav class="main-nav" aria-label="Primary"><a href="#verdicts">VERDICTS</a><a href="#how">HOW</a><a href="#setup">SETUP</a><a href="#themes">THEMES</a></nav>
     <div class="theme-picker"><span class="theme-label">THEME</span><button id="themeButton" class="theme-button" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="themeMenu">LOADING THEMES…</button><div id="themeMenu" class="theme-menu" role="listbox" aria-label="Theme" hidden></div></div>
   </header>
@@ -52,7 +52,7 @@
         <p class="tagline">Seal your file state. Catch the moment the seal breaks.</p>
         <p class="lede">A sigil is a mark that attests nothing has been tampered with. SigilWard baselines every watched file — hash, mode, owner, size — then tells you exactly <em>what</em> changed, not just <em>that</em> something did. Same category as AIDE and Tripwire; written in Rust.</p>
         <div class="chips"><span class="chip"><b>◆</b> SHA-256</span><span class="chip"><b>◆</b> SYSTEMD TIMER</span><span class="chip"><b>◆</b> NO ROOT NEEDED*</span><span class="chip"><b>◆</b> MIT</span></div>
-        <div class="cta"><a class="btn" href="https://github.com/cybercore-tech/sigilward">VIEW SOURCE ↗</a><a class="btn ghost" href="#setup">INSTALL</a></div>
+        <div class="cta"><a class="btn" href="https://github.com/cybercoretech/sigilward">VIEW SOURCE ↗</a><a class="btn ghost" href="#setup">INSTALL</a></div>
       </div>
       <div class="sigil reveal" aria-hidden="true">
         <svg viewBox="0 0 400 400">
@@ -89,7 +89,7 @@
     </section>
 
     <section class="wrap section" id="how">
-      <div class="section-head reveal"><div><p class="eyebrow">02 / How it works</p><h2>Walk. Hash.<br><em>Seal. Compare.</em></h2></div><p>A point-in-time baseline/compare tool — the AIDE/Tripwire operating model. For change detection the moment it happens, pair it with <a href="https://github.com/cybercore-tech/argus">Argus</a>, which watches the same paths live against the same baseline.</p></div>
+      <div class="section-head reveal"><div><p class="eyebrow">02 / How it works</p><h2>Walk. Hash.<br><em>Seal. Compare.</em></h2></div><p>A point-in-time baseline/compare tool — the AIDE/Tripwire operating model. For change detection the moment it happens, pair it with <a href="https://github.com/cybercoretech/argus">Argus</a>, which watches the same paths live against the same baseline.</p></div>
       <div class="pipeline reveal">
         <div class="step"><h3>WALK</h3><p>Every <code>[[watch]]</code> path from the TOML config, recursively. Symlinks are recorded by their own metadata — never followed out of the tree.</p></div>
         <div class="step"><h3>HASH</h3><p>SHA-256 of content plus mode, uid, gid and size for each file.</p></div>
@@ -107,7 +107,7 @@
       <div class="section-head reveal"><div><p class="eyebrow">03 / Setup</p><h2>Seal it<br><em>in minutes.</em></h2></div><p>Build from source, point it at the files that matter, seal, and let a daily systemd timer do the watching. Install the binary root-owned — a tool with read-everything powers must not be swappable by your user.</p></div>
       <div class="grid g2">
         <div class="reveal"><span class="label">BUILD + INSTALL</span>
-<pre class="code" data-copy><code>git clone https://github.com/cybercore-tech/sigilward
+<pre class="code" data-copy><code>git clone https://github.com/cybercoretech/sigilward
 cd sigilward && cargo build --release
 sudo install -m 755 target/release/sigilward /usr/local/bin/
 
@@ -157,7 +157,7 @@ WantedBy=timers.target</code></pre>
     </section>
 
     <section class="wrap section" style="padding-top:0">
-      <div class="card c-cyan related reveal"><div><span class="num">◆ COMPANION</span><h3>ARGUS — THE LIVE HALF</h3><p>Same watched paths, same baseline, change detection the instant it happens, with desktop alerts.</p></div><a class="btn" href="https://github.com/cybercore-tech/argus">ARGUS ↗</a></div>
+      <div class="card c-cyan related reveal"><div><span class="num">◆ COMPANION</span><h3>ARGUS — THE LIVE HALF</h3><p>Same watched paths, same baseline, change detection the instant it happens, with desktop alerts.</p></div><a class="btn" href="https://github.com/cybercoretech/argus">ARGUS ↗</a></div>
     </section>
   </main>
 
@@ -165,7 +165,7 @@ WantedBy=timers.target</code></pre>
     <div class="wrap"><cybercore-contact repo="sigilward"><a href="mailto:dev@cybercoretech.net">dev@cybercoretech.net</a></cybercore-contact></div>
   </section>
 
-  <footer><span>CYBERCORE TECH / SIGILWARD / MIT / © <span id="year"></span></span><span><a href="https://cybercore-tech.github.io/">CYBERCORE-TECH.GITHUB.IO</a> · <a href="https://github.com/cybercore-tech/sigilward">SOURCE</a></span></footer>
+  <footer><span>CYBERCORE TECH / SIGILWARD / MIT / © <span id="year"></span></span><span><a href="https://cybercoretech.github.io/">CYBERCORE-TECH.GITHUB.IO</a> · <a href="https://github.com/cybercoretech/sigilward">SOURCE</a></span></footer>
 
   <script>
     // Hash ticker: cosmetic, mimics a live re-seal.
@@ -173,6 +173,6 @@ WantedBy=timers.target</code></pre>
       const hex = '0123456789abcdef'; setInterval(() => { el.textContent = Array.from({ length: 32 }, () => hex[Math.random() * 16 | 0]).join(''); }, 2200); })();
   </script>
   <script src="app.js"></script>
-  <script type="module" src="https://cybercore-tech.github.io/kit/contact.js"></script>
+  <script type="module" src="https://cybercoretech.github.io/kit/contact.js"></script>
 </body>
 </html>
