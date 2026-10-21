@@ -7,7 +7,12 @@ pub enum Change {
     /// Exists but couldn't be read this run, so it can't be verified.
     /// Never reported as `Deleted`.
     Unreadable(String),
-    Modified { path: String, content_changed: bool, mode_changed: bool, owner_changed: bool },
+    Modified {
+        path: String,
+        content_changed: bool,
+        mode_changed: bool,
+        owner_changed: bool,
+    },
 }
 
 /// Compares a stored baseline against a freshly-built one. Order is
@@ -50,7 +55,12 @@ fn compare(path: &str, old: &FileRecord, new: &FileRecord) -> Option<Change> {
     let owner_changed = old.uid != new.uid || old.gid != new.gid;
 
     if content_changed || mode_changed || owner_changed {
-        Some(Change::Modified { path: path.to_string(), content_changed, mode_changed, owner_changed })
+        Some(Change::Modified {
+            path: path.to_string(),
+            content_changed,
+            mode_changed,
+            owner_changed,
+        })
     } else {
         None
     }
@@ -62,11 +72,23 @@ mod tests {
     use std::collections::BTreeMap;
 
     fn record(hash: &str, mode: u32, uid: u32, gid: u32, size: u64) -> FileRecord {
-        FileRecord { sha256: hash.to_string(), mode, uid, gid, size }
+        FileRecord {
+            sha256: hash.to_string(),
+            mode,
+            uid,
+            gid,
+            size,
+        }
     }
 
     fn baseline(files: Vec<(&str, FileRecord)>) -> Baseline {
-        Baseline { files: files.into_iter().map(|(p, r)| (p.to_string(), r)).collect::<BTreeMap<_, _>>(), ..Default::default() }
+        Baseline {
+            files: files
+                .into_iter()
+                .map(|(p, r)| (p.to_string(), r))
+                .collect::<BTreeMap<_, _>>(),
+            ..Default::default()
+        }
     }
 
     #[test]
@@ -114,7 +136,12 @@ mod tests {
         let changes = diff(&old, &new);
         assert_eq!(changes.len(), 1);
         match &changes[0] {
-            Change::Modified { content_changed, mode_changed, owner_changed, .. } => {
+            Change::Modified {
+                content_changed,
+                mode_changed,
+                owner_changed,
+                ..
+            } => {
                 assert!(content_changed);
                 assert!(!mode_changed);
                 assert!(!owner_changed);
@@ -129,7 +156,11 @@ mod tests {
         let new = baseline(vec![("/etc/foo", record("abc", 0o777, 0, 0, 10))]);
         let changes = diff(&old, &new);
         match &changes[0] {
-            Change::Modified { content_changed, mode_changed, .. } => {
+            Change::Modified {
+                content_changed,
+                mode_changed,
+                ..
+            } => {
                 assert!(!content_changed);
                 assert!(mode_changed);
             }

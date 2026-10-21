@@ -49,9 +49,21 @@ fn record_for(path: &Path) -> std::io::Result<FileRecord> {
     // symlink being repointed is itself a change worth catching, and
     // following it risks walking outside the intended watched tree.
     if meta.file_type().is_symlink() {
-        return Ok(FileRecord { sha256: "symlink".to_string(), mode: meta.mode(), uid: meta.uid(), gid: meta.gid(), size: 0 });
+        return Ok(FileRecord {
+            sha256: "symlink".to_string(),
+            mode: meta.mode(),
+            uid: meta.uid(),
+            gid: meta.gid(),
+            size: 0,
+        });
     }
-    Ok(FileRecord { sha256: hash_file(path)?, mode: meta.mode(), uid: meta.uid(), gid: meta.gid(), size: meta.len() })
+    Ok(FileRecord {
+        sha256: hash_file(path)?,
+        mode: meta.mode(),
+        uid: meta.uid(),
+        gid: meta.gid(),
+        size: meta.len(),
+    })
 }
 
 /// Builds a fresh `Baseline` by walking every configured watch entry right
@@ -64,7 +76,10 @@ pub fn build(entries: &[WatchEntry]) -> Baseline {
     for entry in entries {
         let root = crate::config::expand_home(&entry.path);
         if !root.exists() {
-            eprintln!("sigilward: warning: watched path does not exist, skipping: {}", root.display());
+            eprintln!(
+                "sigilward: warning: watched path does not exist, skipping: {}",
+                root.display()
+            );
             continue;
         }
 
@@ -85,7 +100,9 @@ pub fn build(entries: &[WatchEntry]) -> Baseline {
                     eprintln!("sigilward: warning: walk error: {e}");
                     if let Some(path) = e.path() {
                         if path.exists() {
-                            baseline.unreadable.insert(path.to_string_lossy().into_owned());
+                            baseline
+                                .unreadable
+                                .insert(path.to_string_lossy().into_owned());
                         }
                     }
                     continue;
@@ -97,15 +114,23 @@ pub fn build(entries: &[WatchEntry]) -> Baseline {
             let path = dir_entry.path();
             match record_for(path) {
                 Ok(record) => {
-                    baseline.files.insert(path.to_string_lossy().into_owned(), record);
+                    baseline
+                        .files
+                        .insert(path.to_string_lossy().into_owned(), record);
                 }
                 Err(e) => {
-                    eprintln!("sigilward: warning: could not read {}: {}", path.display(), e);
+                    eprintln!(
+                        "sigilward: warning: could not read {}: {}",
+                        path.display(),
+                        e
+                    );
                     // Gone mid-walk is a genuine absence; anything else
                     // (permission denied, I/O error) means it's still there
                     // but unverified.
                     if e.kind() != std::io::ErrorKind::NotFound {
-                        baseline.unreadable.insert(path.to_string_lossy().into_owned());
+                        baseline
+                            .unreadable
+                            .insert(path.to_string_lossy().into_owned());
                     }
                 }
             }
@@ -156,7 +181,11 @@ mod tests {
         std::fs::write(&path, b"version one").unwrap();
         let r1 = record_for(&path).unwrap();
 
-        let mut f = std::fs::OpenOptions::new().write(true).truncate(true).open(&path).unwrap();
+        let mut f = std::fs::OpenOptions::new()
+            .write(true)
+            .truncate(true)
+            .open(&path)
+            .unwrap();
         f.write_all(b"version two, different content").unwrap();
         drop(f);
         let r2 = record_for(&path).unwrap();
@@ -172,7 +201,10 @@ mod tests {
         std::fs::write(dir.join("top.txt"), b"top").unwrap();
         std::fs::write(dir.join("sub/nested.txt"), b"nested").unwrap();
 
-        let entries = vec![WatchEntry { path: dir.to_string_lossy().into_owned(), recursive: true }];
+        let entries = vec![WatchEntry {
+            path: dir.to_string_lossy().into_owned(),
+            recursive: true,
+        }];
         let baseline = build(&entries);
 
         assert_eq!(baseline.files.len(), 2);
@@ -189,7 +221,10 @@ mod tests {
         std::fs::write(dir.join("top.txt"), b"top").unwrap();
         std::fs::write(dir.join("sub/nested.txt"), b"nested").unwrap();
 
-        let entries = vec![WatchEntry { path: dir.to_string_lossy().into_owned(), recursive: false }];
+        let entries = vec![WatchEntry {
+            path: dir.to_string_lossy().into_owned(),
+            recursive: false,
+        }];
         let baseline = build(&entries);
 
         assert_eq!(baseline.files.len(), 1);

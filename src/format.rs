@@ -20,12 +20,23 @@ pub fn render_report(changes: &[Change], color_on: bool) -> String {
 
     let mut out = String::new();
     for change in changes {
-        let (c, r) = if color_on { (color_for(change), reset().to_string()) } else { (String::new(), String::new()) };
+        let (c, r) = if color_on {
+            (color_for(change), reset().to_string())
+        } else {
+            (String::new(), String::new())
+        };
         match change {
             Change::New(path) => out.push_str(&format!("{c}[NEW]     {path}{r}\n")),
             Change::Deleted(path) => out.push_str(&format!("{c}[DELETED] {path}{r}\n")),
-            Change::Unreadable(path) => out.push_str(&format!("{c}[UNREADABLE]{r} {path} (exists, but could not be read to verify)\n")),
-            Change::Modified { path, content_changed, mode_changed, owner_changed } => {
+            Change::Unreadable(path) => out.push_str(&format!(
+                "{c}[UNREADABLE]{r} {path} (exists, but could not be read to verify)\n"
+            )),
+            Change::Modified {
+                path,
+                content_changed,
+                mode_changed,
+                owner_changed,
+            } => {
                 let mut reasons = Vec::new();
                 if *content_changed {
                     reasons.push("content");
@@ -36,7 +47,10 @@ pub fn render_report(changes: &[Change], color_on: bool) -> String {
                 if *owner_changed {
                     reasons.push("ownership");
                 }
-                out.push_str(&format!("{c}[MODIFIED]{r} {path} ({})\n", reasons.join(", ")));
+                out.push_str(&format!(
+                    "{c}[MODIFIED]{r} {path} ({})\n",
+                    reasons.join(", ")
+                ));
             }
         }
     }
