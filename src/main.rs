@@ -9,7 +9,7 @@ use std::process::ExitCode;
 #[derive(Parser, Debug)]
 #[command(
     name = "sigilward",
-    version = "0.1.0",
+    version,
     about = "File-integrity monitor — baseline a set of paths, detect drift"
 )]
 struct Args {
