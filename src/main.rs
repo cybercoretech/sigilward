@@ -7,7 +7,11 @@ use clap::{Parser, Subcommand};
 use std::process::ExitCode;
 
 #[derive(Parser, Debug)]
-#[command(name = "sigilward", version = "0.1.0", about = "File-integrity monitor — baseline a set of paths, detect drift")]
+#[command(
+    name = "sigilward",
+    version = "0.1.0",
+    about = "File-integrity monitor — baseline a set of paths, detect drift"
+)]
 struct Args {
     #[command(subcommand)]
     command: Commands,
@@ -61,7 +65,11 @@ fn main() -> ExitCode {
             let fresh = baseline::build(&cfg.watch);
             match baseline::save(&fresh, &baseline_path) {
                 Ok(()) => {
-                    println!("sigilward: baseline written to {} ({} files)", baseline_path.display(), fresh.files.len());
+                    println!(
+                        "sigilward: baseline written to {} ({} files)",
+                        baseline_path.display(),
+                        fresh.files.len()
+                    );
                     ExitCode::SUCCESS
                 }
                 Err(e) => {
