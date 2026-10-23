@@ -8,6 +8,7 @@
   <meta name="theme-color" content="#09080f">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpolygon points='50,4 90,27 90,73 50,96 10,73 10,27' fill='%23ff147f'/%3E%3C/svg%3E">
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://cybercoretech.github.io/kit/v1/effects.css">
   <style>
     :root { --a1: var(--pink); --a2: var(--cyan); --a3: var(--acid); }
     .sigil { position: relative; aspect-ratio: 1; width: min(100%, 31rem); margin-inline: auto; }
@@ -172,7 +173,7 @@ WantedBy=timers.target</code></pre>
     (() => { const el = document.getElementById('hash'); if (!el || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
       const hex = '0123456789abcdef'; setInterval(() => { el.textContent = Array.from({ length: 32 }, () => hex[Math.random() * 16 | 0]).join(''); }, 2200); })();
   </script>
-  <script src="app.js"></script>
+  <script src="https://cybercoretech.github.io/kit/v1/cybercore.js"></script>
   <script type="module" src="https://cybercoretech.github.io/kit/contact.js"></script>
 </body>
 </html>
